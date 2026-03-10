@@ -28,6 +28,7 @@ from flask import (
     send_from_directory,
     stream_with_context,
 )
+from flask_cors import CORS
 
 from lib.auth import KagiSessionManager
 from lib.mapping import DEFAULT_MODEL, MODEL_MAPPING, get_latest_model_mapping
@@ -41,6 +42,9 @@ _model_mapping_cache = {
 MODEL_MAPPING_CACHE_TTL = 6 * 60 * 60  # 6 hours in seconds
 
 app = Flask(__name__)
+
+# Enable CORS for all routes
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 kagi_session_key = os.environ.get("KAGI_SESSION_KEY")
 if not kagi_session_key:
